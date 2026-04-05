@@ -1,0 +1,41 @@
+<?php include 'app/templates/menu.phtml'; ?>
+
+<h2><?php echo $data->product_id ? 'Edit Product' : 'Add New Product'; ?></h2>
+
+<form method="POST" action="index.php?c=product&a=save">
+    <input type="hidden" name="product[product_id]" value="<?php echo $data->product_id; ?>">
+
+    <table border="1" width="100%">
+        <tr>
+            <td>Name</td>
+            <td><input type="text" name="product[name]" value="<?php echo $data->name; ?>"></td>
+        </tr>
+        <tr>
+            <td>Quantity</td>
+            <td><input type="text" name="product[quantity]" value="<?php echo $data->quantity; ?>"></td>
+        </tr>
+        <tr>
+            <td>Price</td>
+            <td><input type="text" name="product[price]" value="<?php echo $data->price; ?>"></td>
+        </tr>
+        <tr>
+            <td>Description</td>
+            <td><input type="text" name="product[description]" value="<?php echo $data->description; ?>"></td>
+        </tr>
+        <tr>
+            <td>Status</td>
+            <td>
+                <select name="product[status]">
+                    <option value="1" <?php echo ($data->status == 1) ? 'selected' : ''; ?>>Enabled</option>
+                    <option value="0" <?php echo ($data->status == 0) ? 'selected' : ''; ?>>Disabled</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <button type="submit">Save</button>
+                <a href="index.php?c=product&a=list">Back</a>
+            </td>
+        </tr>
+    </table>
+</form>

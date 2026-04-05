@@ -1,8 +1,8 @@
 <?php
-require_once 'app/controllers/Core/Front.php';
+require_once 'app/controllers/Core/Base.php';
 require_once 'app/models/Product.php';
 
-class Controller_Product extends Controller_Core_Front
+class Controller_Product extends Controller_Core_Base
 {
     public function indexAction()
     {
@@ -11,23 +11,49 @@ class Controller_Product extends Controller_Core_Front
 
     public function listAction()
     {
-        $this->redirect('index', 'product');
-    }
+        $model = new Model_Product();
+        $data = $model->fetchAll();
 
-    public function addAction()
+        $this->renderTemplate('product/list.phtml', [
+            'data' => $data
+        ]);    }
+
+    public function saveAction()
     {
-        echo __CLASS__ . '::' . __FUNCTION__;
-    }
+        $model = new Model_Product();
+
+        foreach ($_POST['product'] as $key => $value) {
+            $model->$key = $value;
+        }
+
+        $model->save();
+
+        $this->redirect('list', 'product');    }
     
     public function editAction()
     {
-        echo __CLASS__ . '::' . __FUNCTION__;
-    }
+        $model = new Model_Product();
+        $id = $this->getRequest()->get('id');
+
+        if ($id) {
+            $model->load($id);
+        }
+
+        $this->renderTemplate('product/edit.phtml', [
+            'data' => $model
+        ]);    }
 
     public function deleteAction()
     {
-        echo __CLASS__ . '::' . __FUNCTION__;
-    }
+        $id = $this->getRequest()->get('id');
+
+        if ($id) {
+            $model = new Model_Product();
+            $model->load($id);
+            $model->delete();
+        }
+
+        $this->redirect('list', 'product');    }
 
     
 }
