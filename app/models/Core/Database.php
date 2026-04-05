@@ -1,13 +1,11 @@
 <?php
 
-class Model_Core_Database
-{
+class Model_Core_Database {
     protected $conn = null;
 
-    public function connection()
-    {
+    public function connection() {
         if ($this->conn === null) {
-            $this->conn = mysqli_connect("localhost", "root", "", "product_curd");
+            $this->conn = mysqli_connect("localhost", "root", "", "sample");
 
             if (!$this->conn) {
                 die("Connection Failed: " . mysqli_connect_error());
@@ -16,13 +14,11 @@ class Model_Core_Database
         return $this->conn;
     }
 
-    public function escape($value)
-    {
+    public function escape($value) {
         return mysqli_real_escape_string($this->connection(), $value);
     }
 
-    public function insert($query)
-    {
+    public function insert($query) {
         $result = mysqli_query($this->connection(), $query);
 
         if ($result) {
@@ -33,19 +29,17 @@ class Model_Core_Database
     }
 
     // UPDATE
-    public function update($query)
-    {
+    public function update($query) {
         return mysqli_query($this->connection(), $query);
     }
 
     // DELETE
-    public function delete($query)
-    {
+    public function delete($query) {
         return mysqli_query($this->connection(), $query);
     }
 
-    public function fetchRow($query)
-    {
+    // FETCH SINGLE ROW
+    public function fetchRow($query) {
         $result = mysqli_query($this->connection(), $query);
 
         if ($result && mysqli_num_rows($result)) {
@@ -55,8 +49,8 @@ class Model_Core_Database
         return false;
     }
 
-    public function fetchAll($query)
-    {
+    // FETCH ALL ROWS
+    public function fetchAll($query) {
         $result = mysqli_query($this->connection(), $query);
 
         if (!$result) {
@@ -72,8 +66,7 @@ class Model_Core_Database
         return $rows ?: false;
     }
 
-    public function fetchOne($query)
-    {
+    public function fetchOne($query) {
         $row = $this->fetchRow($query);
 
         if ($row) {
@@ -83,8 +76,7 @@ class Model_Core_Database
         return false;
     }
 
-    public function fetchPairs($query)
-    {
+    public function fetchPairs($query) {
         $result = mysqli_query($this->connection(), $query);
 
         if (!$result) {

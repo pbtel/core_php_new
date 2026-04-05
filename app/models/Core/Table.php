@@ -1,6 +1,6 @@
 <?php
 
-require_once "Database.php";
+require_once 'app/models/Core/Database.php';
 
 class Model_Core_Table
 {
@@ -10,13 +10,12 @@ class Model_Core_Table
     protected $data = [];
     protected $adapter = null;
 
-    public function __construct()
-    {
-    }
+    public function __construct() {}
 
     public function setTableName($tablename)
     {
         $this->_tablename = $tablename;
+        return $this;
     }
 
     public function getTableName()
@@ -27,16 +26,20 @@ class Model_Core_Table
     public function setPrimaryKey($primarykey)
     {
         $this->_primarykey = $primarykey;
+        return $this;
     }
 
     public function getPrimaryKey()
     {
         return $this->_primarykey;
     }
+
     public function setAdapter($adapter)
     {
         $this->adapter = $adapter;
+        return $this;
     }
+
     public function getAdapter()
     {
         if (!$this->adapter) {
@@ -46,10 +49,10 @@ class Model_Core_Table
         return $this->adapter;
     }
 
-
     public function __set($key, $value)
     {
         $this->data[$key] = $value;
+        return $this;
     }
 
     public function __get($key)
@@ -57,9 +60,10 @@ class Model_Core_Table
         if (array_key_exists($key, $this->data)) {
             return $this->data[$key];
         }
-        return null;    }
+        return null;
+    }
 
-
+    // Load a single record by primary key
     public function load($id)
     {
         $table = $this->getTableName();
@@ -74,6 +78,7 @@ class Model_Core_Table
         return $this;
     }
 
+    // Fetch all records
     public function fetchAll()
     {
         $table = $this->getTableName();
@@ -82,9 +87,11 @@ class Model_Core_Table
         return $rows ? $rows : [];
     }
 
+    // Insert a new record
     public function insert()
     {
         $data = $this->data;
+        // Remove primary key if empty (auto-increment)
         $primaryKey = $this->getPrimaryKey();
         if (array_key_exists($primaryKey, $data) && empty($data[$primaryKey])) {
             unset($data[$primaryKey]);
@@ -105,6 +112,7 @@ class Model_Core_Table
         return $this->getAdapter()->insert($sql);
     }
 
+    // Update an existing record
     public function update()
     {
         $data = $this->data;
@@ -125,6 +133,7 @@ class Model_Core_Table
         return $this->getAdapter()->update($sql);
     }
 
+    // Save – insert or update based on primary key presence
     public function save()
     {
         $primaryKey = $this->getPrimaryKey();
@@ -136,20 +145,17 @@ class Model_Core_Table
         return $this->insert();
     }
 
+    // Delete a record by primary key
     public function delete()
     {
         $table = $this->getTableName();
         $primaryKey = $this->getPrimaryKey();
 
-        if (empty($this->data[$primaryKey])) {
+        if(empty($this->data[$primaryKey])){
             return false;
         }
-
         $id = $this->getAdapter()->escape($this->data[$primaryKey]);
-
         $sql = "DELETE FROM `$table` WHERE `$primaryKey` = '$id'";
         return $this->getAdapter()->delete($sql);
     }
-
 }
-

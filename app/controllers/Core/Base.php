@@ -53,5 +53,4 @@ class Controller_Core_Base
         include $templatePath;
     }
 
-
 }

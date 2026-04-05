@@ -4,7 +4,6 @@ class Mage
 {
     public static function init()
     {
-        echo 111;
         Boot::init();
     }
 }

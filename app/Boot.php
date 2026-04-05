@@ -5,10 +5,11 @@ class Boot
 {
     public static function init()
     {
-
         $request = new Model_Request();
 
         $controllerName = $request->get('c', 'product');
+        
+        // Build controller file path: app/controllers/{Ucfirst}.php
         $controllerFile = 'app/controllers/' . ucfirst($controllerName) . '.php';
         
         if (!file_exists($controllerFile)) {
@@ -26,6 +27,5 @@ class Boot
 
         $controller = new $controllerClass();
         $controller->dispatch();
-
     }
 }
