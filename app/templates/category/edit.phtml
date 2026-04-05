@@ -1,0 +1,33 @@
+<?php include 'app/templates/menu.phtml'; ?>
+
+<h2><?php echo $data->category_id ? 'Edit Category' : 'Add New Category'; ?></h2>
+
+<form method="POST" action="index.php?c=category&a=save">
+    <input type="hidden" name="category[category_id]" value="<?php echo $data->category_id; ?>">
+
+    <table border="1" width="100%">
+        <tr>
+            <td>Name</td>
+            <td><input type="text" name="category[name]" value="<?php echo $data->name; ?>"></td>
+        </tr>
+        <tr>
+            <td>Description</td>
+            <td><input type="text" name="category[description]" value="<?php echo $data->description; ?>"></td>
+        </tr>
+        <tr>
+            <td>Status</td>
+            <td>
+                <select name="category[status]">
+                    <option value="1" <?php echo ($data->status == 1) ? 'selected' : ''; ?>>Enabled</option>
+                    <option value="0" <?php echo ($data->status == 0) ? 'selected' : ''; ?>>Disabled</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <button type="submit">Save</button>
+                <a href="index.php?c=category&a=list">Back</a>
+            </td>
+        </tr>
+    </table>
+</form>
