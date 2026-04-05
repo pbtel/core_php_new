@@ -23,7 +23,6 @@ class Controller_Core_Base
 
     public function dispatch(){
         $action = $this->getRequest()->get('a','index');
-        $action = preg_replace('/[^a-zA-Z0-9_].*$/', '', $action);
         $action .= 'Action';
         $this->$action();
     }
