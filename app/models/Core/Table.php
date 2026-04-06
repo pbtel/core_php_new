@@ -74,8 +74,10 @@ class Model_Core_Table
 
         if ($row) {
             $this->data = $row;
+            return $this;
         }
-        return $this;
+
+        return false;
     }
 
     // Fetch all records
@@ -91,7 +93,11 @@ class Model_Core_Table
     public function insert()
     {
         $data = $this->data;
-        // Remove primary key if empty (auto-increment)
+
+        if (empty($data)) {
+            throw new Exception("No data to insert");
+        }
+
         $primaryKey = $this->getPrimaryKey();
         if (array_key_exists($primaryKey, $data) && empty($data[$primaryKey])) {
             unset($data[$primaryKey]);
@@ -117,6 +123,15 @@ class Model_Core_Table
     {
         $data = $this->data;
         $primaryKey = $this->getPrimaryKey();
+
+        if (empty($data[$primaryKey])) {
+            throw new Exception("Primary key missing for update");
+        }
+
+        if (empty($data)) {
+            throw new Exception("No data to update");
+        }
+
         $id = $this->getAdapter()->escape($data[$primaryKey]);
         unset($data[$primaryKey]);
 
@@ -133,11 +148,24 @@ class Model_Core_Table
         return $this->getAdapter()->update($sql);
     }
 
-    // Save – insert or update based on primary key presence
+
     public function save()
     {
         $primaryKey = $this->getPrimaryKey();
-        if (!empty($this->data[$primaryKey])) {
+        $id = $this->$primaryKey;
+
+        if ($id !== null || $id !== '') {
+
+            $escapedId = $this->getAdapter()->escape($id);
+            $table = $this->getTableName();
+
+            $sql = "SELECT * FROM `$table` WHERE `$primaryKey` = '$escapedId'";
+            $row = $this->getAdapter()->fetchRow($sql);
+
+            if (!$row) {
+                throw new Exception("Invalid ID: Record does not exist.");
+            }
+            
             $this->data['updated_date'] = date('Y-m-d H:i:s');
             return $this->update();
         }
@@ -151,11 +179,25 @@ class Model_Core_Table
         $table = $this->getTableName();
         $primaryKey = $this->getPrimaryKey();
 
-        if(empty($this->data[$primaryKey])){
-            return false;
+        $id = $this->$primaryKey;
+
+        if ($id === null || $id === '') {
+            throw new Exception("Primary key is missing", 1);
         }
-        $id = $this->getAdapter()->escape($this->data[$primaryKey]);
+
+
+        if (!$this->load($id)) {
+            throw new Exception("Record is not there for this id", 1);
+        }
+
+        $id = $this->getAdapter()->escape($id);
+
         $sql = "DELETE FROM `$table` WHERE `$primaryKey` = '$id'";
-        return $this->getAdapter()->delete($sql);
+        $result = $this->getAdapter()->delete($sql);
+
+        if (!$result) {
+            throw new Exception("Failed to delete record", 1);
+        }
+        return $result;
     }
 }

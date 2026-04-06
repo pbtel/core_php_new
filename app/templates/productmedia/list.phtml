@@ -1,0 +1,45 @@
+<?php include 'app/templates/menu.phtml'; ?>
+
+<h2>Product Media List</h2>
+<a href="index.php?c=productmedia&a=edit">Add New Product Media</a>
+<br><br>
+
+<table border="1" width="100%">
+    <tr>
+        <th>ID</th>
+        <th>Product ID</th>
+        <th>File Path</th>
+        <th>Alt Text</th>
+        <th>Sort Order</th>
+        <th>Is Main</th>
+        <th>Is Thumb</th>
+        <th>Is Cart</th>
+        <th>Created Date</th>
+        <th>Updated Date</th>
+        <th>Actions</th>
+    </tr>
+    <?php if (!empty($data)): ?>
+        <?php foreach ($data as $row): ?>
+            <tr>
+                <td><?php echo $row['product_media_id']; ?></td>
+                <td><?php echo $row['product_id']; ?></td>
+                <td><?php echo $row['file_path']; ?></td>
+                <td><?php echo $row['alt_text']; ?></td>
+                <td><?php echo $row['sort_order']; ?></td>
+                <td><?php echo $row['is_main']; ?></td>
+                <td><?php echo $row['is_thumb']; ?></td>
+                <td><?php echo $row['is_cart']; ?></td>
+                <td><?php echo $row['created_date']; ?></td>
+                <td><?php echo $row['updated_date']; ?></td>
+                <td>
+                    <a href="index.php?c=productmedia&a=edit&id=<?php echo $row['product_media_id']; ?>">Edit</a> |
+                    <a href="index.php?c=productmedia&a=delete&id=<?php echo $row['product_media_id']; ?>">Delete</a>
+                </td>
+            </tr>
+        <?php endforeach; ?>
+    <?php else: ?>
+        <tr>
+            <td colspan="11">No records found.</td>
+        </tr>
+    <?php endif; ?>
+</table>

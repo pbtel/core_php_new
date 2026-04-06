@@ -5,7 +5,7 @@ class Model_Core_Database {
 
     public function connection() {
         if ($this->conn === null) {
-            $this->conn = mysqli_connect("localhost", "root", "", "sample");
+            $this->conn = mysqli_connect("localhost", "root", "", "product_curd");
 
             if (!$this->conn) {
                 die("Connection Failed: " . mysqli_connect_error());

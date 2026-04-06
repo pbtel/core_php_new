@@ -1,5 +1,5 @@
 <?php
-require_once 'app/models/Product.php';
+require_once 'app/models/Productmedia.php';
 
 class Controller_Core_Base
 {

@@ -1,0 +1,59 @@
+<?php include 'app/templates/menu.phtml'; ?>
+
+<h2><?php echo $data->product_media_id ? 'Edit Product Media' : 'Add New Product Media'; ?></h2>
+
+<form method="POST" action="index.php?c=productmedia&a=save">
+    <input type="hidden" name="productmedia[product_media_id]" value="<?php echo $data->product_media_id; ?>">
+
+    <table border="1" width="100%">
+        <tr>
+            <td>Product ID</td>
+            <td><input type="text" name="productmedia[product_id]" value="<?php echo $data->product_id; ?>"></td>
+        </tr>
+        <tr>
+            <td>File Path</td>
+            <td><input type="text" name="productmedia[file_path]" value="<?php echo $data->file_path; ?>"></td>
+        </tr>
+        <tr>
+            <td>Alt Text</td>
+            <td><input type="text" name="productmedia[alt_text]" value="<?php echo $data->alt_text; ?>"></td>
+        </tr>
+        <tr>
+            <td>Sort Order</td>
+            <td><input type="text" name="productmedia[sort_order]" value="<?php echo $data->sort_order; ?>"></td>
+        </tr>
+        <tr>
+            <td>Is Main</td>
+            <td>
+                <select name="productmedia[is_main]">
+                    <option value="1" <?php echo ($data->is_main == 1) ? 'selected' : ''; ?>>Yes</option>
+                    <option value="0" <?php echo ($data->is_main == 0) ? 'selected' : ''; ?>>No</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>Is Thumb</td>
+            <td>
+                <select name="productmedia[is_thumb]">
+                    <option value="1" <?php echo ($data->is_thumb == 1) ? 'selected' : ''; ?>>Yes</option>
+                    <option value="0" <?php echo ($data->is_thumb == 0) ? 'selected' : ''; ?>>No</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>Is Cart</td>
+            <td>
+                <select name="productmedia[is_cart]">
+                    <option value="1" <?php echo ($data->is_cart == 1) ? 'selected' : ''; ?>>Yes</option>
+                    <option value="0" <?php echo ($data->is_cart == 0) ? 'selected' : ''; ?>>No</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <button type="submit">Save</button>
+                <a href="index.php?c=productmedia&a=list">Back</a>
+            </td>
+        </tr>
+    </table>
+</form>
