@@ -15,6 +15,7 @@ class Model_Core_Table
     public function setTableName($tablename)
     {
         $this->_tablename = $tablename;
+        return $this;
     }
 
     public function getTableName()
@@ -25,6 +26,7 @@ class Model_Core_Table
     public function setPrimaryKey($primarykey)
     {
         $this->_primarykey = $primarykey;
+        return $this;
     }
 
     public function getPrimaryKey()
@@ -35,6 +37,7 @@ class Model_Core_Table
     public function setAdapter($adapter)
     {
         $this->adapter = $adapter;
+        return $this;
     }
 
     public function getAdapter()
@@ -49,6 +52,7 @@ class Model_Core_Table
     public function __set($key, $value)
     {
         $this->data[$key] = $value;
+        return $this;
     }
 
     public function __get($key)
@@ -95,7 +99,7 @@ class Model_Core_Table
 
         $keys = array_keys($data);
         $columns = implode("`, `", $keys);
-        
+
         $values = [];
         foreach ($data as $value) {
             $values[] = $this->getAdapter()->escape($value);
@@ -146,6 +150,7 @@ class Model_Core_Table
     {
         $table = $this->getTableName();
         $primaryKey = $this->getPrimaryKey();
+
         if(empty($this->data[$primaryKey])){
             return false;
         }

@@ -1,44 +1,44 @@
 <?php
 require_once 'app/controllers/Core/Base.php';
-require_once 'app/models/Category.php';
+require_once 'app/models/Customergroup.php';
 
-class Controller_Category extends Controller_Core_Base
+class Controller_Customergroup extends Controller_Core_Base
 {
     public function listAction()
     {
-        $model = new Model_Category();
+        $model = new Model_Customergroup();
         $data = $model->fetchAll();
 
-        $this->renderTemplate('category/list.phtml', [
+        $this->renderTemplate('customergroup/list.phtml', [
             'data' => $data
         ]);
     }
 
     public function editAction()
     {
-        $model = new Model_Category();
+        $model = new Model_Customergroup();
         $id = $this->getRequest()->get('id');
 
         if ($id) {
             $model->load($id);
         }
 
-        $this->renderTemplate('category/edit.phtml', [
+        $this->renderTemplate('customergroup/edit.phtml', [
             'data' => $model
         ]);
     }
 
     public function saveAction()
     {
-        $model = new Model_Category();
+        $model = new Model_Customergroup();
 
-        foreach ($_POST['category'] as $key => $value) {
+        foreach ($_POST['customergroup'] as $key => $value) {
             $model->$key = $value;
         }
 
         $model->save();
 
-        $this->redirect('list', 'category');
+        $this->redirect('list', 'customergroup');
     }
 
     public function deleteAction()
@@ -46,11 +46,11 @@ class Controller_Category extends Controller_Core_Base
         $id = $this->getRequest()->get('id');
 
         if ($id) {
-            $model = new Model_Category();
+            $model = new Model_Customergroup();
             $model->load($id);
             $model->delete();
         }
 
-        $this->redirect('list', 'category');
+        $this->redirect('list', 'customergroup');
     }
 }
