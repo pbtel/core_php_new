@@ -154,7 +154,7 @@ class Model_Core_Table
         $primaryKey = $this->getPrimaryKey();
         $id = $this->$primaryKey;
 
-        if ($id !== null || $id !== '') {
+        if ($id !== null && $id !== '') {
 
             $escapedId = $this->getAdapter()->escape($id);
             $table = $this->getTableName();

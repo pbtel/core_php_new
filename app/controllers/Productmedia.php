@@ -42,6 +42,11 @@ class Controller_Productmedia extends Controller_Core_Base
 
         $model = new Model_Productmedia();
 
+        // Filter out empty primary key to prevent issues
+        if (isset($data['product_media_id']) && empty($data['product_media_id'])) {
+            unset($data['product_media_id']);
+        }
+
         foreach ($data as $key => $value) {
             $model->$key = $value;
         }

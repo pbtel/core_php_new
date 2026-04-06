@@ -1,5 +1,9 @@
 <?php
 require_once 'app/models/Productmedia.php';
+require_once 'app/models/Category.php';
+require_once 'app/models/Product.php';
+require_once 'app/models/Customer.php';
+require_once 'app/models/Customergroup.php';
 
 class Controller_Core_Base
 {

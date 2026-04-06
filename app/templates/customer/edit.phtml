@@ -1,0 +1,45 @@
+<?php include 'app/templates/menu.phtml'; ?>
+
+<h2><?php echo $data->customer_id ? 'Edit Customer' : 'Add New Customer'; ?></h2>
+
+<form method="POST" action="index.php?c=customer&a=save">
+    <input type="hidden" name="customer[customer_id]" value="<?php echo $data->customer_id ?? ''; ?>">
+
+    <table border="1" width="100%">
+        <tr>
+            <td>Customer Group ID</td>
+            <td><input type="text" name="customer[customer_group_id]" value="<?php echo $data->customer_group_id ?? ''; ?>"></td>
+        </tr>
+        <tr>
+            <td>First Name</td>
+            <td><input type="text" name="customer[first_name]" value="<?php echo $data->first_name ?? ''; ?>" required></td>
+        </tr>
+        <tr>
+            <td>Last Name</td>
+            <td><input type="text" name="customer[last_name]" value="<?php echo $data->last_name ?? ''; ?>" required></td>
+        </tr>
+        <tr>
+            <td>Email</td>
+            <td><input type="email" name="customer[email]" value="<?php echo $data->email ?? ''; ?>" required></td>
+        </tr>
+        <tr>
+            <td>Phone</td>
+            <td><input type="text" name="customer[phone]" value="<?php echo $data->phone ?? ''; ?>"></td>
+        </tr>
+        <tr>
+            <td>Status</td>
+            <td>
+                <select name="customer[status]">
+                    <option value="1" <?php echo ($data->status == 1) ? 'selected' : ''; ?>>Enabled</option>
+                    <option value="0" <?php echo ($data->status == 0) ? 'selected' : ''; ?>>Disabled</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <button type="submit">Save</button>
+                <a href="index.php?c=customer&a=list">Back</a>
+            </td>
+        </tr>
+    </table>
+</form>

@@ -1,0 +1,37 @@
+<?php include 'app/templates/menu.phtml'; ?>
+
+<h2>Category List</h2>
+<a href="index.php?c=category&a=edit">Add New Category</a>
+<br><br>
+
+<table border="1" width="100%">
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Status</th>
+        <th>Created Date</th>
+        <th>Updated Date</th>
+        <th>Actions</th>
+    </tr>
+    <?php if (!empty($data)): ?>
+        <?php foreach ($data as $row): ?>
+            <tr>
+                <td><?php echo $row['category_id']; ?></td>
+                <td><?php echo $row['name']; ?></td>
+                <td><?php echo $row['description']; ?></td>
+                <td><?php echo $row['status']; ?></td>
+                <td><?php echo $row['created_date']; ?></td>
+                <td><?php echo $row['updated_date']; ?></td>
+                <td>
+                    <a href="index.php?c=category&a=edit&id=<?php echo $row['category_id']; ?>">Edit</a> |
+                    <a href="index.php?c=category&a=delete&id=<?php echo $row['category_id']; ?>" onclick="return confirm('Are you sure?');">Delete</a>
+                </td>
+            </tr>
+        <?php endforeach; ?>
+    <?php else: ?>
+        <tr>
+            <td colspan="7">No records found.</td>
+        </tr>
+    <?php endif; ?>
+</table>
